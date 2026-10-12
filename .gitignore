@@ -38,4 +38,4 @@
 !/app/assets/builds/.keep
 /vendor/bundle
 node_modules/
-
+CLAUDE.md
