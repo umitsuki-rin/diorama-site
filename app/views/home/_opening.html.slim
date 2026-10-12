@@ -1,0 +1,19 @@
+/ オープニング：本編と同じ背景・額縁の上にロゴ → 音楽のオン／オフ選択。ここでのクリックを再生開始のきっかけにする
+.fixed.inset-0.z-50.bg-white data-bgm-target="opening" role="dialog" aria-modal="true" aria-label="DIORAMA へようこそ"
+  = render "home/frame"
+  .stage.fixed.inset-x-0.top-0.bottom-14.md:bottom-0.md:right-16.flex.items-center.justify-center
+    / SONGS と同じ、透明で水色のフチのカードの中にロゴと選択ボタン
+    .stage-card.songs-card.opening-card
+      / ロゴは大きく、やや半透明に。カードのちょうど中央に置く
+      .absolute.inset-0.flex.items-center.justify-center.opacity-65.pointer-events-none
+        = image_tag site_logo_source, alt: "DIORAMA", class: "w-[160%] tablet:w-[115%] tablet:-translate-y-[100px] max-w-none wide:w-[min(70cqw,58rem)] wide:max-w-full h-auto motion-safe:animate-[opening-fade_1.6s_ease-out_both] drop-shadow-[0_6px_20px_rgb(0_0_0/0.25)]"
+      / 選択ボタンはロゴの下
+      .absolute.inset-x-0.flex.flex-col.items-center.gap-5 class="top-[calc(50%+min(16cqw,7rem))] wide:top-[calc(50%+min(9cqw,9rem))] motion-safe:animate-[opening-fade_1s_ease-out_1.2s_both]"
+        p.text-white.text-sm.tracking-widest 音楽を再生しますか？
+        .flex.flex-wrap.justify-center.gap-4
+          button.pill-button.border-white.text-white.hover:bg-white.hover:text-heading type="button" data-action="bgm#choose" data-bgm-sound-param="on" data-bgm-target="onChoice"
+            i.fa-solid.fa-volume-high aria-hidden="true"
+            | 音あり
+          button.pill-button.border-white.text-white.hover:bg-white.hover:text-heading type="button" data-action="bgm#choose" data-bgm-sound-param="off" data-bgm-target="offChoice"
+            i.fa-solid.fa-volume-xmark aria-hidden="true"
+            | 音なし

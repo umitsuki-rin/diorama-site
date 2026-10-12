@@ -1,0 +1,19 @@
+- content_for :title, "サイト設定"
+
+= render "admin/shared/page_header", title: "サイト設定", action_label: "編集", action_path: edit_admin_site_setting_path, action_icon: "fa-pen"
+
+.bg-white.rounded-xl.shadow-sm.border.border-gray-200.p-6
+  .grid.grid-cols-1.md:grid-cols-2.gap-6
+    div
+      h2.text-sm.font-medium.text-gray-500.mb-2 ロゴ
+      - if @site_setting.logo.attached?
+        = image_tag @site_setting.logo, class: "max-h-32 rounded-lg border border-gray-200 bg-gray-800 p-2"
+      - else
+        p.text-sm.text-gray-400 未登録（既定の diorama_logo.png を表示）
+    div
+      h2.text-sm.font-medium.text-gray-500.mb-2 BGM
+      - if @site_setting.bgm.attached?
+        p.text-sm.text-gray-700.mb-2 = @site_setting.bgm.filename
+        audio.w-full controls="" preload="none" src=url_for(@site_setting.bgm)
+      - else
+        p.text-sm.text-gray-400 未登録（既定の bgm.wav を再生）

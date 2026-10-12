@@ -1,0 +1,6 @@
+/ 五線譜（6段×5本）。親要素いっぱいに広がる。variant: "dark" でプロフィール用の濃い色
+.staff class=("staff-dark" if local_assigns[:variant] == "dark") aria-hidden="true"
+  - 6.times do
+    .staff-row
+      - 5.times do
+        span

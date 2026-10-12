@@ -1,0 +1,32 @@
+- content_for :title, "プロフィールの編集"
+
+h1.text-2xl.font-bold.text-gray-800.mb-6 プロフィールの編集
+
+= render "admin/shared/errors", record: @profile
+
+= form_with model: @profile, url: admin_profile_path, method: :patch, class: "bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6" do |f|
+  div
+    = admin_label f, :image
+    = f.file_field :image, accept: "image/*", class: AdminHelper::FILE_INPUT_CLASS
+    - if @profile.image.attached? && @profile.image.persisted?
+      = image_tag @profile.image, class: "mt-3 max-h-40 rounded-lg border border-gray-200"
+  div
+    = admin_label f, :body
+    = f.text_area :body, rows: 8, class: AdminHelper::INPUT_CLASS
+  div
+    = admin_label f, :achievements, note: "1行に1件ずつ入力"
+    = f.text_area :achievements, rows: 6, class: AdminHelper::INPUT_CLASS
+  div
+    = admin_label f, :price_table, note: "Markdown 対応（表は | 区切り）"
+    = f.text_area :price_table, rows: 12, class: "#{AdminHelper::INPUT_CLASS} font-mono", placeholder: "| 内容 | 料金 |\n| --- | --- |\n| 作詞作曲 | ¥00,000〜 |"
+  div
+    = admin_label f, :request_notes
+    = f.text_area :request_notes, rows: 6, class: AdminHelper::INPUT_CLASS
+  .grid.grid-cols-1.md:grid-cols-2.gap-6
+    - %i[ x_url youtube_url niconico_url note_url ].each do |key|
+      div
+        = admin_label f, key
+        = f.url_field key, placeholder: "https://", class: AdminHelper::INPUT_CLASS
+  .flex.flex-wrap.gap-3
+    = f.submit "保存する", class: AdminHelper::PRIMARY_BUTTON_CLASS
+    = link_to "キャンセル", admin_profile_path, class: AdminHelper::SECONDARY_BUTTON_CLASS

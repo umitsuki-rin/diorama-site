@@ -1,0 +1,7 @@
+- links = song.streaming_links
+- if links.any?
+  ul.relative.z-20.mt-2.flex.flex-wrap.items-center.gap-2
+    - links.each do |link|
+      li
+        = link_to link[:url], target: "_blank", rel: "noopener", class: "block transition-transform hover:scale-110", title: link[:name] do
+          = image_tag link[:icon], alt: "#{link[:name]}で聴く", class: "w-6 h-6 tablet:w-7 tablet:h-7 wide:w-7 wide:h-7 object-contain"

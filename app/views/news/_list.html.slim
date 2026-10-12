@@ -1,0 +1,19 @@
+- if all
+  / 全件一覧の間はスクロールでセクションを切り替えない（一覧の中だけスクロール）
+  .shrink-0.flex.items-center.justify-between.mb-4 data-lock-sections=""
+    p.font-semibold.tracking-widest すべてのニュース
+    = link_to news_index_path, class: "text-sm tracking-widest hover:opacity-70", data: { flip: "back" } do
+      i.fa-solid.fa-arrow-left.mr-2 aria-hidden="true"
+      | 戻る
+- if news_list.any?
+  ul.min-h-0.overflow-y-auto.thin-scrollbar.pr-1
+    - news_list.each_with_index do |news, index|
+      / スマホの最新一覧は5件まで（PC は6件）
+      li.border-b.border-ink/30.first:border-t class=("narrow:hidden" if !all && index >= 5)
+        = link_to news_path(news, from: (all ? "all" : nil)), class: "group flex items-center gap-3 wide:gap-6 py-2.5 wide:py-4", data: { flip: "forward" } do
+          time.shrink-0.wide:text-sm.tracking-wider.wide:tracking-widest class="text-[0.55rem] tablet:text-xs" datetime=news.published_on.iso8601 = dot_date(news.published_on)
+          span.min-w-0.flex-1.text-xs.tablet:text-sm.wide:text-base.tracking-wider.truncate = news.title
+          span.shrink-0.w-7.h-7.wide:w-9.wide:h-9.bg-blush.flex.items-center.justify-center.transition-transform.group-hover:translate-x-1 aria-hidden="true"
+            i.fa-solid.fa-arrow-right.text-xs.wide:text-sm
+- else
+  p.py-10.text-center.tracking-widest お知らせはまだありません

@@ -1,0 +1,22 @@
+doctype html
+html lang="ja"
+  head
+    title = [content_for(:title), "DIORAMA 管理画面"].compact.join(" | ")
+    meta name="viewport" content="width=device-width,initial-scale=1"
+    meta name="robots" content="noindex,nofollow"
+    link rel="icon" href="/favicon.ico" sizes="any"
+    = csrf_meta_tags
+    = csp_meta_tag
+    = render "shared/font_awesome"
+    = stylesheet_link_tag :app, "data-turbo-track": "reload"
+    = javascript_importmap_tags
+
+  body.min-h-screen.bg-gray-50.text-gray-800.flex.items-center.justify-center.px-4
+    .w-full.max-w-sm
+      p.text-center.text-xl.font-bold.text-gray-800.mb-6 DIORAMA CMS
+      .bg-white.rounded-xl.shadow-sm.border.border-gray-200.p-6
+        - if alert.present?
+          .mb-4.bg-red-50.border.border-red-200.text-red-800.rounded-lg.px-4.py-3.text-sm role="alert" = alert
+        - if notice.present?
+          .mb-4.bg-green-50.border.border-green-200.text-green-800.rounded-lg.px-4.py-3.text-sm role="status" = notice
+        = yield

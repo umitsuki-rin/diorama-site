@@ -1,0 +1,10 @@
+/ 背景の額縁（画面に固定）。オープニングと本編で同じものを使う。周りは白背景
+.fixed.inset-x-0.top-0.bottom-14.md:bottom-0.md:right-16.pointer-events-none class="p-2 md:px-[min(39px,2vw)] md:py-[min(35px,3.3dvh)]" aria-hidden="true"
+  .site-frame.relative.h-full.w-full.overflow-hidden class="rounded-[24px] md:rounded-[36px]"
+    .frame-lines
+      .frame-ring.frame-ring-pink
+      .frame-ring.frame-ring-gold
+      .frame-ring.frame-ring-gold-thick
+      / 四隅が内側に丸くえぐれた水色の線（2px）。サイズに合わせて JS で描画
+      svg.absolute.overflow-visible class="inset-[33px] h-[calc(100%-66px)] w-[calc(100%-66px)] md:inset-[61px] md:h-[calc(100%-122px)] md:w-[calc(100%-122px)]" data-controller="scallop-frame" data-scallop-frame-radius-value="36"
+        path.fill-none data-scallop-frame-target="path" stroke="#acd1e5" stroke-width="2"

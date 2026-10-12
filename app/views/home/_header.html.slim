@@ -1,0 +1,20 @@
+/ PC：右端に縦長で固定 / スマホ：下に横長で固定。中央の2本線でメニュー（ドロワー）を開閉する
+header.fixed.z-40.bg-header.text-white.inset-x-0.bottom-0.h-14.md:inset-x-auto.md:right-0.md:top-0.md:h-auto.md:w-16.flex.md:flex-col.items-center.justify-center.md:justify-between.gap-10.md:gap-0.md:py-8 class="pb-[env(safe-area-inset-bottom)]"
+  / ロゴマーク（2本線と同じ色。SVG をマスクにして塗る）
+  span.logo-mark.absolute.left-5.md:static.block.w-8.md:w-9.bg-gold-soft role="img" aria-label="DIORAMA"
+  / 2本線：スマホは横線（上下に2本）、PC は縦線（左右に2本）
+  button.group.w-11.h-11.flex.flex-col.md:flex-row.items-center.justify-center.cursor-pointer class="gap-1.5" type="button" data-action="drawer#toggle" data-drawer-target="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="site-drawer"
+    span.block.w-5.md:h-5.bg-gold-soft.rounded-full.transition-transform.duration-300 class="h-[2px] md:w-[2px] group-aria-expanded:translate-y-[4px] group-aria-expanded:rotate-45 md:group-aria-expanded:translate-y-0 md:group-aria-expanded:translate-x-1" aria-hidden="true"
+    span.block.w-5.md:h-5.bg-gold-soft.rounded-full.transition-transform.duration-300 class="h-[2px] md:w-[2px] group-aria-expanded:-translate-y-[4px] group-aria-expanded:-rotate-45 md:group-aria-expanded:translate-y-0 md:group-aria-expanded:-translate-x-1" aria-hidden="true"
+  / ミュート：スマホは右端に置き、2本線をバーの左右中央にする
+  button.absolute.right-5.md:static.w-11.h-11.rounded-full.flex.items-center.justify-center.text-gold-soft.hover:bg-white/10.transition-colors.cursor-pointer type="button" data-action="bgm#toggleMute" data-bgm-target="muteButton" aria-label="ミュートを切り替え" aria-pressed="true"
+    i.fa-solid.fa-bell-slash.text-sm data-bgm-target="muteIcon" aria-hidden="true"
+  audio data-bgm-target="audio" src=site_bgm_source loop="" preload="metadata"
+
+/ ドロワー。ヘッダーの裏から右→左にせり出す
+.fixed.inset-0.z-30.bg-black/30.opacity-0.pointer-events-none.transition-opacity.duration-300 data-drawer-target="backdrop" data-action="click->drawer#close" aria-hidden="true"
+nav#site-drawer.drawer-panel.fixed.z-35.top-0.right-0.bottom-14.md:bottom-0.md:right-16.bg-header.text-white.flex.flex-col.justify-center.gap-2.px-10.md:px-14.shadow-2xl class="w-[min(85vw,24rem)]" data-drawer-target="panel" aria-label="メニュー"
+  - [ [ "SONGS", "楽曲" ], [ "DIORAMA", "プロフィール" ], [ "NEWS", "お知らせ" ], [ "CONTACT", "お問い合わせ" ] ].each_with_index do |(label, sub), index|
+    button.group.text-left.py-3.cursor-pointer type="button" data-action="sections#goTo drawer#close" data-sections-index-param=index data-sections-target="navItem"
+      span.block.font-heading.text-3xl.tracking-wider.transition-colors.group-hover:text-whisper class="group-aria-[current=true]:text-whisper" = label
+      span.block.mt-1.text-xs.tracking-widest.text-white/60 = sub

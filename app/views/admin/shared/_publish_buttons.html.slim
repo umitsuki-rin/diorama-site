@@ -1,0 +1,5 @@
+/ 「下書き保存」「公開する」の2ボタン。押したボタンの value が params[:status] に入る
+.flex.flex-wrap.items-center.gap-3.pt-2
+  = form.button "公開する", type: "submit", name: "status", value: "published", class: AdminHelper::PRIMARY_BUTTON_CLASS
+  = form.button "下書き保存", type: "submit", name: "status", value: "draft", class: "px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 cursor-pointer"
+  = link_to "キャンセル", cancel_path, class: AdminHelper::SECONDARY_BUTTON_CLASS

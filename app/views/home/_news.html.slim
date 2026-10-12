@@ -1,0 +1,21 @@
+section#news.section-panel.flex.items-center.justify-center data-sections-target="section" data-effect="flip" aria-labelledby="news-heading" inert=""
+  .stage-card data-flip-page=""
+    .section-heading.absolute.z-10.origin-bottom-left class="top-[0.05em] -left-[0.45em] wide:-top-[0.15em] wide:-left-[0.55em] -rotate-[12deg]" data-flip-content=""
+      h2#news-heading.heading-en.relative.z-10 NEWS
+      p.heading-script.absolute.left-1/2.-translate-x-1/2.whitespace-nowrap class="top-[55%]" aria-hidden="true" News.
+
+    .glass-card.absolute.inset-0 data-controller="page-flip" data-action="click->page-flip#remember turbo:before-frame-render->page-flip#beforeRender turbo:frame-render->page-flip#afterRender"
+      span.bracket.bracket-grow.bracket-top-right aria-hidden="true"
+      span.bracket.bracket-grow.bracket-bottom-left aria-hidden="true"
+      / PC では一覧・詳細の中だけをスクロールさせる（見出しやイラストはカード内に固定）
+      .absolute.inset-0.overflow-y-auto.wide:overflow-hidden.thin-scrollbar.flex.flex-col.wide:flex-row.gap-8.wide:gap-12.px-6.py-10.wide:py-12 class="wide:px-[4.5%]" data-flip-content=""
+        / 左：イラストと、その下中央に View More（スマホはイラスト → 一覧 → View More の順に並べる）
+        .contents.wide:flex.wide:flex-col.wide:items-center.wide:justify-center.wide:gap-3.wide:shrink-0 class="wide:w-[36%] wide:pt-[min(4rem,7cqh)]"
+          / 元画像（3000px）は縮小時に線が荒れるため、余白を切り落として縮小した版を使う
+          = image_tag "news/diorama_1200.png", alt: "", class: "order-1 wide:order-none self-center shrink-0 w-48 tablet:w-96 tablet:mt-10 wide:w-[min(100%,38cqh)] h-auto drop-shadow-xl", loading: "lazy", data: { flip_image: "" }
+          = link_to news_index_path(all: 1), class: "order-3 wide:order-none self-center shrink-0 pill-button bg-white/50 text-xs gap-3 px-8 py-2 wide:px-14 wide:py-4 wide:mt-2", data: { turbo_frame: "news_panel", flip: "forward" } do
+            | View More
+            i.fa-solid.fa-arrow-right aria-hidden="true"
+        .order-2.wide:order-none.relative.min-w-0.wide:min-h-0.flex-1.flex.flex-col.justify-center-safe data-page-flip-target="frame"
+          = turbo_frame_tag "news_panel", class: "flex flex-col min-h-0" do
+            = render "news/list", news_list: news_list, all: false

@@ -1,0 +1,23 @@
+= turbo_frame_tag "songs_panel" do
+  / data-song-detail があるとき、パネル右上の閉じる（×）ボタンを出す
+  article data-song-detail=""
+    - if @from_list
+      = link_to songs_path, class: "inline-block text-sm tracking-widest hover:opacity-70 mb-6", data: { flip: "back" } do
+        i.fa-solid.fa-arrow-left.mr-2 aria-hidden="true"
+        | 一覧に戻る
+    .flex.flex-col.wide:flex-row.gap-8.wide:gap-12
+      .shrink-0.w-48.wide:w-64
+        - if @song.jacket.attached?
+          = image_tag @song.jacket.variant(resize_to_fill: [ 640, 640 ]), alt: "#{@song.title} のジャケット", class: "aspect-square w-full object-cover shadow-lg"
+        - else
+          .aspect-square.w-full.bg-white/50.flex.items-center.justify-center.text-heading/50
+            i.fa-solid.fa-music.text-5xl aria-hidden="true"
+      .min-w-0.flex-1
+        - if @song.released_on
+          p.text-sm.tracking-widest
+            time datetime=@song.released_on.iso8601 = dot_date(@song.released_on)
+            |  Release
+        h3.mt-2.pb-4.border-b.border-ink/30.text-lg.wide:text-xl.font-semibold.tracking-wider.leading-relaxed tabindex="-1" data-page-flip-focus="" = @song.title
+        = render "songs/streaming_links", song: @song
+        - if @song.description.present?
+          .mt-6.text-sm.wide:text-base.leading-loose.tracking-wider = simple_format(@song.description)

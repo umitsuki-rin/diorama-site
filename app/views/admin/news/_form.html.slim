@@ -1,0 +1,18 @@
+= render "admin/shared/errors", record: news
+
+= form_with model: [ :admin, news ], class: "bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6" do |f|
+  .grid.grid-cols-1.md:grid-cols-2.gap-6
+    div
+      = admin_label f, :title, required: true
+      = f.text_field :title, required: true, maxlength: 255, class: AdminHelper::INPUT_CLASS
+    div
+      = admin_label f, :published_on, required: true, note: "未来の日付は予約公開"
+      = f.date_field :published_on, required: true, class: AdminHelper::INPUT_CLASS
+  div
+    = admin_label f, :body
+    = f.text_area :body, rows: 12, class: AdminHelper::INPUT_CLASS
+  - if news.persisted?
+    p.text-sm.text-gray-500
+      | 現在のステータス：
+      = status_badge(news)
+  = render "admin/shared/publish_buttons", form: f, cancel_path: admin_news_index_path

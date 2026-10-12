@@ -1,0 +1,32 @@
+= turbo_frame_tag "songs_panel" do
+  / data-songs-list があるとき、パネル右端の戻るボタンを出す
+  .flex.items-center.justify-between.mb-4 data-songs-list=""
+    p.font-semibold.tracking-widest すべての楽曲
+  - if @songs.any?
+    ul
+      - @songs.each do |song|
+        - detail_path = song_path(song, from: "list")
+        - links = song.streaming_links.select { %i[ youtube_url niconico_url ].include?(it[:key]) }
+        li.border-b.border-ink/30.first:border-t.flex.items-center.gap-2.wide:gap-6.py-2.5
+          = link_to detail_path, class: "group min-w-0 flex-1 flex items-center gap-3 wide:gap-6", data: { flip: "forward" } do
+            .shrink-0.w-11.h-11.wide:w-14.wide:h-14
+              - if song.jacket.attached?
+                = image_tag song.jacket.variant(resize_to_fill: [ 160, 160 ]), alt: "", class: "w-full h-full object-cover shadow", loading: "lazy"
+              - else
+                .w-full.h-full.bg-white/50.flex.items-center.justify-center.text-heading/50
+                  i.fa-solid.fa-music aria-hidden="true"
+            / スマホは日付と曲名を縦に並べる
+            .min-w-0.flex-1.flex.flex-col.wide:flex-row.wide:items-center.gap-0.5.wide:gap-6
+              time.shrink-0.wide:w-24.wide:text-sm.tracking-widest class="text-[0.6rem] tablet:text-xs" datetime=song.released_on&.iso8601 = dot_date(song.released_on) || "—"
+              span.min-w-0.flex-1.wide:text-base.tracking-wider.truncate.group-hover:opacity-70 class="text-[0.65rem] tablet:text-sm" = song.title
+          / YouTube・ニコニコのリンク（登録されているものだけ）
+          - if links.any?
+            ul.shrink-0.flex.items-center.gap-1.wide:gap-2
+              - links.each do |link|
+                li
+                  = link_to link[:url], target: "_blank", rel: "noopener", title: link[:name], class: "block transition-transform hover:scale-110" do
+                    = image_tag link[:icon], alt: "#{link[:name]}で聴く", class: "w-5 h-5 wide:w-7 wide:h-7 object-contain"
+          = link_to detail_path, class: "shrink-0 w-7 h-7 wide:w-9 wide:h-9 bg-blush flex items-center justify-center transition-transform hover:translate-x-1", data: { flip: "forward" }, tabindex: -1, aria: { hidden: true } do
+            i.fa-solid.fa-arrow-right.text-xs.wide:text-sm
+  - else
+    p.py-10.text-center.tracking-widest 楽曲は準備中です

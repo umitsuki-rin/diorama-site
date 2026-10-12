@@ -1,0 +1,68 @@
+- sns_links = [ { url: profile.x_url, name: "X", icon: "fa-brands fa-x-twitter" },
+                { url: profile.youtube_url, name: "YouTube", icon: "fa-brands fa-youtube" },
+                { url: profile.niconico_url, name: "ニコニコ", image: "profile/niconico_icon.png" },
+                { url: profile.note_url, name: "note", image: "profile/note_icon.png" } ].select { it[:url].present? }
+
+section#diorama.section-panel.flex.items-center.justify-center data-sections-target="section" data-effect="fade" aria-labelledby="diorama-heading" inert="" data-controller="modal"
+  .stage-card data-flip-page=""
+    / 見出しは大きく、カードの左上からはみ出させる
+    h2#diorama-heading.heading-diorama.heading-en.heading-hatched.absolute.z-10 class="-top-[0.55em] -left-[0.4em]" data-text="DIORAMA" DIORAMA
+
+    / 五線譜はカードの後ろ（半透明のカード越しに見える）
+    = render "shared/staff", variant: "dark"
+    .glass-card.absolute.inset-0
+      / PC はスクロールなしで収める（文字や余白を画面の高さに合わせて伸縮）。スマホのみスクロール
+      .absolute.inset-0.overflow-y-auto.thin-scrollbar.px-6.py-10.tablet:px-12.tablet:pt-12.tablet:pb-12.wide:flex.wide:flex-col.wide:overflow-y-auto class="wide:px-[4.5%] wide:pt-[min(6.5rem,12cqh)] wide:pb-[min(2.5rem,5cqh)]" data-flip-content=""
+        - if sns_links.any?
+          ul.flex.items-center.justify-center.gap-3.mt-8.mb-4.wide:absolute.wide:top-6.wide:right-8.wide:m-0
+            - sns_links.each do |link|
+              li
+                = link_to link[:url], target: "_blank", rel: "noopener", title: link[:name], aria: { label: link[:name] }, class: "w-9 h-9 flex items-center justify-center text-ink text-xl hover:opacity-70 transition-opacity" do
+                  - if link[:image]
+                    = image_tag link[:image], alt: "", class: "w-7 h-7 object-contain"
+                  - else
+                    i class=link[:icon] aria-hidden="true"
+
+        / 左：プロフィール画像（透過のまま表示） / 右：プロフィール文・料金表ボタン・線・実績
+        .flex.flex-col.wide:flex-row.gap-8.wide:gap-14.items-center.wide:items-stretch.wide:flex-1.wide:min-h-0
+          .shrink-0.w-full.max-w-xs.tablet:max-w-60.wide:self-center class="wide:w-[min(44cqh,36%)] wide:max-w-none" data-flip-image=""
+            - if profile.image.attached?
+              = image_tag profile.image.variant(resize_to_limit: [ 800, 800 ]), alt: "DIORAMA のプロフィール画像", class: "w-full h-auto"
+            - else
+              .aspect-square.w-full.flex.items-center.justify-center.text-heading/40
+                i.fa-solid.fa-user.text-6xl aria-hidden="true"
+          .min-w-0.flex-1.w-full.wide:flex.wide:flex-col
+            .text-xs.tablet:text-sm.leading-loose.tracking-wider class="wide:text-[clamp(0.8rem,2.3cqh,1rem)] wide:leading-[2.1] wide:tracking-widest"
+              - if profile.body.present?
+                = simple_format(profile.body)
+              - else
+                p プロフィールは準備中です。
+            / 料金表ボタンと実績は右カラムの下端に寄せる（ボタンは実績の線のすぐ上）
+            .mt-8.wide:mt-auto
+              - if profile.price_table.present? || profile.request_notes.present?
+                .flex.justify-center
+                  button.pill-button.relative.font-normal.text-xs.tablet:text-sm.wide:text-sm.pl-12.pr-7.wide:py-3.wide:pl-14.wide:pr-10 class="py-2.5" type="button" data-action="modal#open"
+                    / ト音記号は左上から右下へ傾け、上寄りに重ねる
+                    span.absolute.left-1.font-music.text-3xl.leading-none.text-heading class="-rotate-[18deg] top-[-30%]" aria-hidden="true" 𝄞
+                    | 料金表・ご依頼について
+
+              - achievements = profile.achievement_list
+              - if achievements.any?
+                / 「実績：」の右に1行1件で並べる
+                .mt-6.pt-5.border-t.border-ink/30.flex.gap-3 class="wide:mt-[min(1.5rem,3cqh)] wide:pt-[min(1.25rem,2.5cqh)]"
+                  h3.shrink-0.wide:text-sm.font-semibold.tracking-widest.leading-loose class="text-[0.65rem] tablet:text-xs" 実績：
+                  ul.min-w-0.wide:text-sm.leading-loose.tracking-wider class="text-[0.65rem] tablet:text-xs"
+                    - achievements.each do |achievement|
+                      li = achievement
+
+  dialog.m-auto.p-0.bg-transparent.backdrop:bg-black/50.backdrop:backdrop-blur-sm class="w-[min(92vw,52rem)] max-h-[85dvh]" data-modal-target="dialog" data-action="click->modal#closeOnBackdrop" aria-labelledby="price-heading"
+    .bg-white.relative.overflow-y-auto.thin-scrollbar.p-6.wide:p-10.tracking-wider class="max-h-[85dvh]"
+      button.absolute.top-4.right-4.w-10.h-10.flex.items-center.justify-center.rounded-full.hover:bg-black/5.cursor-pointer type="button" data-action="modal#close" aria-label="閉じる"
+        i.fa-solid.fa-xmark.text-xl aria-hidden="true"
+      h2#price-heading.text-xl.font-semibold.tracking-widest.text-heading.mb-6 料金表・ご依頼について
+      - if profile.price_table.present?
+        .markdown-body.overflow-x-auto.text-sm.wide:text-base = markdown(profile.price_table)
+      - if profile.request_notes.present?
+        .mt-8.pt-6.border-t.border-black/10
+          h3.font-semibold.tracking-widest.mb-3 依頼についての注意点
+          .text-sm.leading-loose = simple_format(profile.request_notes)

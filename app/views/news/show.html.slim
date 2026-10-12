@@ -1,0 +1,10 @@
+= turbo_frame_tag "news_panel" do
+  / 詳細を表示している間はスクロールでセクションを切り替えない
+  article.min-h-0.overflow-y-auto.thin-scrollbar.pr-1 data-lock-sections=""
+    = link_to news_index_path(all: (@back_to_all ? 1 : nil)), class: "inline-block text-sm tracking-widest hover:opacity-70 mb-6", data: { flip: "back" } do
+      i.fa-solid.fa-arrow-left.mr-2 aria-hidden="true"
+      | 一覧に戻る
+    time.block.text-sm.tracking-widest datetime=@news.published_on.iso8601 = dot_date(@news.published_on)
+    h3.mt-2.pb-4.border-b.border-ink/30.text-lg.wide:text-xl.font-semibold.tracking-wider.leading-relaxed tabindex="-1" data-page-flip-focus="" = @news.title
+    .mt-6.text-sm.wide:text-base.leading-loose.tracking-wider
+      = simple_format(@news.body)

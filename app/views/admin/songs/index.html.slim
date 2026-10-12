@@ -1,0 +1,37 @@
+- content_for :title, "楽曲"
+
+= render "admin/shared/page_header", title: "楽曲", action_label: "新規登録", action_path: new_admin_song_path
+
+p.text-sm.text-gray-500.mb-4 公開側には公開中の楽曲が登録順に最大4件表示されます。
+
+.bg-white.rounded-xl.shadow-sm.border.border-gray-200.overflow-hidden
+  .overflow-x-auto
+    table.w-full.text-sm
+      thead
+        tr.bg-gray-50
+          th.px-5.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.hidden.sm:table-cell ジャケット
+          th.px-5.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase 曲名
+          th.px-5.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.hidden.md:table-cell リリース日
+          th.px-5.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase ステータス
+          th.px-5.py-3.text-right.text-xs.font-medium.text-gray-500.uppercase 操作
+      tbody
+        - @songs.each do |song|
+          tr.border-t.border-gray-100.hover:bg-gray-50.cursor-pointer data-controller="row-link" data-row-link-url-value=edit_admin_song_path(song) data-action="click->row-link#visit"
+            td.px-5.py-3.hidden.sm:table-cell
+              - if song.jacket.attached?
+                = image_tag song.jacket.variant(resize_to_fill: [ 96, 96 ]), class: "w-12 h-12 rounded object-cover", alt: ""
+              - else
+                .w-12.h-12.rounded.bg-gray-100.flex.items-center.justify-center.text-gray-400
+                  i.fa-solid.fa-music
+            td.px-5.py-3.font-medium.text-gray-800 = song.title
+            td.px-5.py-3.text-gray-600.hidden.md:table-cell = song.released_on ? l(song.released_on) : "—"
+            td.px-5.py-3 = status_badge(song)
+            td.px-5.py-3
+              .flex.items-center.justify-end.gap-4
+                = link_to edit_admin_song_path(song), class: "text-gray-400 hover:text-indigo-600", title: "編集", aria: { label: "編集" } do
+                  i.fa-solid.fa-pen
+                = button_to admin_song_path(song), method: :delete, class: "text-gray-400 hover:text-red-600 cursor-pointer", title: "削除", aria: { label: "削除" }, form: { data: { turbo_confirm: "本当に削除しますか？" } } do
+                  i.fa-solid.fa-trash
+        - if @songs.empty?
+          tr.border-t.border-gray-100
+            td.px-5.py-10.text-center.text-gray-400 colspan="5" 楽曲はまだ登録されていません

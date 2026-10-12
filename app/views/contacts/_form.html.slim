@@ -1,0 +1,24 @@
+= turbo_frame_tag "contact_form" do
+  = form_with model: contact, class: "contact-guides relative space-y-3 wide:space-y-[min(1rem,1.8cqh)] w-[78%] wide:w-full max-w-lg mx-auto" do |f|
+    / 横の罫線：企業名・メールアドレスは左だけ、お名前・お問い合わせ内容は右だけ
+    - if contact.errors.any?
+      .bg-white/80.border.border-red-300.px-4.py-3.text-sm.text-red-700.tracking-wider role="alert"
+        ul.list-disc.pl-5.space-y-1
+          - contact.errors.full_messages.each do |message|
+            li = message
+    .guide-row.guide-left
+      = f.label :company_name, "企業名（任意）", class: "sr-only"
+      = f.text_field :company_name, placeholder: "企業名", autocomplete: "organization", maxlength: 100, class: "contact-input"
+    .guide-row.guide-right
+      = f.label :name, "お名前（必須）", class: "sr-only"
+      = f.text_field :name, placeholder: "お名前", autocomplete: "name", required: true, maxlength: 100, class: "contact-input"
+    .guide-row.guide-left
+      = f.label :email, "メールアドレス（必須）", class: "sr-only"
+      = f.email_field :email, placeholder: "メールアドレス", autocomplete: "email", required: true, maxlength: 255, class: "contact-input"
+    .guide-row.guide-right
+      = f.label :body, "お問い合わせ内容（必須）", class: "sr-only"
+      = f.text_area :body, placeholder: "お問い合わせ内容", rows: 4, required: true, maxlength: 5000, class: "contact-input resize-y"
+    .guide-button-wrap.relative.w-fit.mx-auto.mt-2
+      button.guide-button.relative.inline-flex.items-center.gap-2.wide:gap-3.border.border-ink.px-6.py-2.text-sm.wide:text-base.wide:px-10.wide:py-3.font-semibold.tracking-widest.hover:bg-ink.hover:text-white.transition-colors.cursor-pointer.disabled:opacity-50 type="submit" data-turbo-submits-with="送信中…"
+        | 送信
+        i.fa-solid.fa-paper-plane aria-hidden="true"

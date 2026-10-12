@@ -1,0 +1,6 @@
+.flex.flex-wrap.items-center.justify-between.gap-4.mb-6
+  h1.text-2xl.font-bold.text-gray-800 = title
+  - if local_assigns[:action_label]
+    = link_to action_path, class: "inline-flex items-center gap-2 #{AdminHelper::PRIMARY_BUTTON_CLASS}" do
+      i.fa-solid class=local_assigns.fetch(:action_icon, "fa-plus")
+      span = action_label

@@ -1,0 +1,25 @@
+services:
+  db:
+    image: mysql:${MYSQL_VERSION}
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      TZ: Asia/Tokyo
+    ports:
+      - "${DB_PORT_DEV}:3306"
+
+  web:
+    build:
+      context: .
+      args:
+        RUBY_VERSION: ${RUBY_VERSION}
+    depends_on:
+      - db
+    environment:
+      TZ: Asia/Tokyo
+    ports:
+      - "${WEB_PORT_DEV}:3000"
+    tty: true
+
+volumes:
+  db_data:

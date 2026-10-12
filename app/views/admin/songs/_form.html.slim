@@ -1,0 +1,33 @@
+= render "admin/shared/errors", record: song
+
+= form_with model: [ :admin, song ], class: "bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6" do |f|
+  .grid.grid-cols-1.md:grid-cols-2.gap-6
+    div
+      = admin_label f, :title, required: true
+      = f.text_field :title, required: true, maxlength: 255, class: AdminHelper::INPUT_CLASS
+    div
+      = admin_label f, :released_on
+      = f.date_field :released_on, class: AdminHelper::INPUT_CLASS
+  div
+    = admin_label f, :jacket, note: "正方形推奨"
+    = f.file_field :jacket, accept: "image/*", class: AdminHelper::FILE_INPUT_CLASS
+    - if song.jacket.attached? && song.jacket.persisted?
+      = image_tag song.jacket.variant(resize_to_fill: [ 320, 320 ]), class: "mt-3 w-40 h-40 rounded-lg object-cover border border-gray-200"
+  div
+    = admin_label f, :description
+    = f.text_area :description, rows: 6, class: AdminHelper::INPUT_CLASS
+  div
+    h2.text-sm.font-semibold.text-gray-700.mb-3 配信先 URL
+    p.text-xs.text-gray-400.mb-3 登録されたものだけ公開側にアイコンが表示されます。
+    .grid.grid-cols-1.md:grid-cols-2.gap-6
+      - Song::STREAMING_SERVICES.each do |service|
+        div
+          = f.label service[:key], class: "flex items-center gap-2 text-sm font-medium text-gray-700 mb-1" do
+            = image_tag service[:icon], class: "w-5 h-5 object-contain", alt: ""
+            = service[:name]
+          = f.url_field service[:key], placeholder: "https://", class: AdminHelper::INPUT_CLASS
+  - if song.persisted?
+    p.text-sm.text-gray-500
+      | 現在のステータス：
+      = status_badge(song)
+  = render "admin/shared/publish_buttons", form: f, cancel_path: admin_songs_path

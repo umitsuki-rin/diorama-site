@@ -1,0 +1,36 @@
+- content_for :title, "プロフィール"
+
+= render "admin/shared/page_header", title: "プロフィール", action_label: "編集", action_path: edit_admin_profile_path, action_icon: "fa-pen"
+
+.bg-white.rounded-xl.shadow-sm.border.border-gray-200.p-6.space-y-8
+  .grid.grid-cols-1.md:grid-cols-2.gap-6
+    div
+      h2.text-sm.font-medium.text-gray-500.mb-2 プロフィール画像
+      - if @profile.image.attached?
+        = image_tag @profile.image, class: "max-h-48 rounded-lg border border-gray-200"
+      - else
+        p.text-sm.text-gray-400 未登録
+    div
+      h2.text-sm.font-medium.text-gray-500.mb-2 SNS
+      dl.text-sm.space-y-2
+        - { x_url: "X", youtube_url: "YouTube", niconico_url: "ニコニコ", note_url: "note" }.each do |key, name|
+          .flex.gap-3
+            dt.w-20.shrink-0.text-gray-500 = name
+            dd.min-w-0.break-all
+              - if @profile.public_send(key).present?
+                = link_to @profile.public_send(key), @profile.public_send(key), target: "_blank", rel: "noopener", class: "text-indigo-600 hover:underline"
+              - else
+                span.text-gray-400 未登録
+  - { body: "プロフィール文", achievements: "実績", request_notes: "依頼についての注意点" }.each do |key, label|
+    div
+      h2.text-sm.font-medium.text-gray-500.mb-2 = label
+      - if @profile.public_send(key).present?
+        .text-sm.text-gray-800.leading-relaxed = simple_format(@profile.public_send(key))
+      - else
+        p.text-sm.text-gray-400 未登録
+  div
+    h2.text-sm.font-medium.text-gray-500.mb-2 料金表
+    - if @profile.price_table.present?
+      .markdown-body.text-sm.text-gray-800.overflow-x-auto = markdown(@profile.price_table)
+    - else
+      p.text-sm.text-gray-400 未登録

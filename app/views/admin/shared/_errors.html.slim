@@ -1,0 +1,6 @@
+- if record.errors.any?
+  .bg-red-50.border.border-red-200.rounded-lg.p-4.mb-6 role="alert"
+    p.text-sm.font-medium.text-red-800.mb-2 #{record.errors.count}件の入力エラーがあります
+    ul.list-disc.pl-5.text-sm.text-red-700.space-y-1
+      - record.errors.full_messages.each do |message|
+        li = message

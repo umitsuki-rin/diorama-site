@@ -1,0 +1,40 @@
+doctype html
+html lang="ja"
+  head
+    title = seo_title
+    meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"
+    meta name="description" content=seo_description
+    meta name="robots" content="index,follow,max-image-preview:large"
+    meta name="theme-color" content="#367b75"
+    link rel="canonical" href=root_url
+    / SNS でシェアされたときの表示（OGP / X）
+    meta property="og:type" content="website"
+    meta property="og:site_name" content=SeoHelper::SITE_NAME
+    meta property="og:locale" content="ja_JP"
+    meta property="og:title" content=seo_title
+    meta property="og:description" content=seo_description
+    meta property="og:url" content=root_url
+    meta property="og:image" content=seo_image_url
+    meta property="og:image:alt" content="DIORAMA"
+    meta name="twitter:card" content="summary_large_image"
+    meta name="twitter:title" content=seo_title
+    meta name="twitter:description" content=seo_description
+    meta name="twitter:image" content=seo_image_url
+    meta name="apple-mobile-web-app-capable" content="yes"
+    meta name="application-name" content="DIORAMA"
+    meta name="mobile-web-app-capable" content="yes"
+    link rel="icon" href="/favicon.ico" sizes="any"
+    = csrf_meta_tags
+    = csp_meta_tag
+    = yield :head
+    link rel="preconnect" href="https://fonts.googleapis.com"
+    link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""
+    link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=M+PLUS+2:wght@400;600&family=Whisper&display=swap"
+    / ト音記号（U+1D11E）だけをサブセットで読み込む
+    link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Music&display=swap&text=%F0%9D%84%9E"
+    = render "shared/font_awesome"
+    = stylesheet_link_tag :app, "data-turbo-track": "reload"
+    = javascript_importmap_tags
+
+  body.h-dvh.overflow-hidden.bg-white.font-body.font-normal.text-ink.antialiased
+    = yield

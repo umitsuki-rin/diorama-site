@@ -1,0 +1,39 @@
+section#songs.section-panel.is-active.is-revealed.flex.items-center.justify-center data-sections-target="section" data-effect="fade" aria-labelledby="songs-heading" data-controller="songs-panel"
+  / 透明で水色のフチのカード。中に6段の五線譜
+  .stage-card.songs-card data-flip-page=""
+    = render "shared/staff"
+
+    / 見出しはカードの左上に重ね、左へはみ出させる
+    .section-heading.absolute.z-10.origin-bottom-left class="top-[0.05em] -left-[0.45em] wide:-top-[0.15em] wide:-left-[0.55em] -rotate-[12deg]"
+      h2#songs-heading.heading-en.relative.z-10 SONGS
+      p.heading-script.absolute.left-1/2.-translate-x-1/2.whitespace-nowrap class="top-[55%]" aria-hidden="true" Songs.
+
+    - if songs.any?
+      / 曲のカードは下めに置き、枠の下へはみ出させる
+      .absolute.inset-x-0 class="top-[26%] wide:top-[36%] transition-opacity duration-300" data-songs-panel-target="cards"
+        .flex.items-start.overflow-x-auto.no-scrollbar.w-full class="gap-[min(3.5cqw,3.5rem)] px-[5%] py-4" data-sections-target="track" data-action="scroll->sections#trackScrolled"
+          - songs.each_with_index do |song, index|
+            = render "songs/card", song: song, staggered: index.odd?
+          .shrink-0.self-center.pr-4.transition-all.duration-700.opacity-0.translate-x-4 data-sections-target="more"
+            / もっと見る：円形のボタン
+            = link_to songs_path, class: "w-16 h-16 rounded-full border border-ink bg-white/70 flex items-center justify-center text-ink text-xl hover:bg-ink hover:text-white transition-colors", data: { turbo_frame: "songs_panel", action: "songs-panel#open" }, aria: { label: "もっと見る" }, title: "もっと見る" do
+              i.fa-solid.fa-chevron-right aria-hidden="true"
+    - else
+      .absolute.inset-0.flex.items-center.justify-center
+        p.text-white.tracking-widest 楽曲は準備中です
+
+    / 全楽曲の一覧・楽曲の詳細（NEWS と同じ白いカード。カードのクリックや「もっと見る」で開く）
+    .songs-panel.glass-card.absolute.inset-0.opacity-0.invisible.transition-opacity.duration-300 data-songs-panel-target="panel" data-controller="page-flip" data-action="click->page-flip#remember turbo:before-frame-render->page-flip#beforeRender turbo:frame-render->page-flip#afterRender"
+      span.bracket.bracket-grow.bracket-top-right aria-hidden="true"
+      span.bracket.bracket-grow.bracket-bottom-left aria-hidden="true"
+      / 全楽曲一覧のときだけ表示する戻るボタン（「もっと見る」と同じ円形。カードの右端・上下中央から外へはみ出す）
+      button.songs-back.absolute.z-20.right-0.top-1/2.-translate-y-1/2.w-11.h-11.wide:w-16.wide:h-16.text-base.wide:text-xl.rounded-full.border.border-ink.bg-white.items-center.justify-center.text-ink.hover:bg-ink.hover:text-white.transition-colors.cursor-pointer class="translate-x-1/2 wide:translate-x-[115%]" type="button" data-action="songs-panel#close" aria-label="戻る" title="戻る"
+        i.fa-solid.fa-chevron-left aria-hidden="true"
+      / 楽曲詳細のときだけ表示する閉じるボタン
+      button.songs-close.absolute.z-10.top-4.right-6.wide:top-6.wide:right-10.w-11.h-11.rounded-full.items-center.justify-center.text-ink.text-xl.hover:bg-black/5.transition-colors.cursor-pointer type="button" data-action="songs-panel#close" aria-label="閉じる" title="閉じる"
+        i.fa-solid.fa-xmark aria-hidden="true"
+      / 上は SONGS の見出しと重ならないよう空ける
+      .absolute.inset-0.overflow-y-auto.thin-scrollbar.px-4.pb-8.wide:pb-12 class="pt-[4.5rem] wide:px-[8%] wide:pt-[min(8rem,15cqh)]"
+        .relative data-page-flip-target="frame"
+          = turbo_frame_tag "songs_panel" do
+            p.py-10.text-center.tracking-widest 読み込み中…

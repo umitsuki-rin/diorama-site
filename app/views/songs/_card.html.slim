@@ -1,0 +1,15 @@
+article.relative.shrink-0.group.transition-transform.hover:-translate-y-1 class=["w-[min(11rem,46cqw)] tablet:w-[15rem] wide:w-[clamp(8.5rem,min(13cqw,24cqh),15rem)]", ("mt-[min(7cqh,5rem)]" if staggered)]
+  / カード全体のリンク（配信先アイコンはその上に重ねて個別に押せるようにする）
+  = link_to song.title, song_path(song), class: "absolute inset-0 z-10 indent-[-9999px] overflow-hidden", data: { turbo_frame: "songs_panel", action: "songs-panel#open" }
+  .paper.p-3.wide:p-4
+    - if song.jacket.attached?
+      = image_tag song.jacket.variant(resize_to_fill: [ 480, 480 ]), alt: "#{song.title} のジャケット", class: "aspect-square w-full object-cover", loading: "lazy", data: { flip_image: "" }
+    - else
+      .aspect-square.w-full.bg-paper-dark/60.flex.items-center.justify-center.text-heading/50
+        i.fa-solid.fa-music.text-4xl aria-hidden="true"
+    h3.mt-2.wide:mt-3.text-xs.tablet:text-sm.wide:text-base.font-semibold.tracking-wider.wide:tracking-widest.truncate title=song.title = song.title
+    = render "songs/streaming_links", song: song
+  - if song.released_on
+    p.mt-2.text-right.text-neutral-700.tracking-widest class="text-[0.6rem] wide:text-[0.7rem]"
+      time datetime=song.released_on.iso8601 = dot_date(song.released_on)
+      |  Release

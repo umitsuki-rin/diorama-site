@@ -1,0 +1,13 @@
+section#contact.section-panel.flex.items-center.justify-center data-sections-target="section" data-effect="flip" data-reveal-images="after-content" aria-labelledby="contact-heading" inert=""
+  .contact-frame.relative.flex.flex-col class="w-[min(calc(100cqw-6.5rem),48rem)] tablet:w-[calc(100cqw-17rem)] max-h-[calc(100cqh-8rem)]" data-flip-page=""
+    = image_tag "contact/ink_1000.png", alt: "", class: "absolute -top-8 -left-5 tablet:-top-20 tablet:-left-20 wide:-top-[min(3.5rem,5cqh)] wide:-left-[min(18rem,26cqh)] w-24 tablet:w-56 wide:w-[min(19rem,28cqh)] z-10 pointer-events-none drop-shadow-lg", loading: "lazy", data: { flip_image: "" }
+    / ペンはカードの右下にやや重ねる
+    = image_tag "contact/pen_1000.png", alt: "", class: "absolute -bottom-10 -right-4 tablet:-bottom-20 tablet:-right-20 wide:bottom-[min(1rem,1.5cqh)] wide:-right-[min(25rem,31cqh)] w-28 tablet:w-72 wide:w-[min(28rem,42cqh)] z-10 pointer-events-none drop-shadow-lg", loading: "lazy", data: { flip_image: "" }
+
+    / 白い枠線と、見出し・入力欄・ボタンの端に沿ったガイド線
+    .contact-card.relative.min-h-0.flex-1.overflow-y-auto.wide:overflow-hidden.thin-scrollbar.px-6.py-10.wide:px-16 class="wide:py-[min(3rem,5cqh)]" data-flip-content=""
+      .guide-bottom.relative.mb-2
+        .section-heading.relative.w-fit.mx-auto class="pb-[1.25em]"
+          h2#contact-heading.heading-en.heading-contact.relative.z-10 CONTACT
+          p.heading-script.heading-script-outline.absolute.left-1/2.-translate-x-1/2.whitespace-nowrap class="top-[0.05em] text-[1.5em] -rotate-[13deg]" aria-hidden="true" Contact.
+      = render "contacts/form", contact: contact
