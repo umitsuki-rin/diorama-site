@@ -68,6 +68,7 @@ production:
     <<: *primary_production
     database: diorama_site_production_queue
     migrations_paths: db/queue_migrate
+    max_connections: 5
   cable:
     <<: *primary_production
     database: diorama_site_production_cable
