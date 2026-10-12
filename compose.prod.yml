@@ -4,9 +4,6 @@ services:
   db:
     env_file:
       - db.prod.env
-    ports:
-      - "3307:3306"
-
   web:
     build: .
     volumes:
@@ -14,8 +11,6 @@ services:
       - storage-data:/rails/storage
     env_file:
       - web.prod.env
-    ports:
-      - "3000:3000"
 
   nginx:
     image: nginx:alpine
@@ -23,17 +18,18 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+      - ./nginx/conf.d:/etc/nginx/conf.d:z
+      - ./certbot/conf:/etc/letsencrypt:z
+      - ./certbot/www:/var/www/certbot:z
     depends_on:
       - web
 
   certbot:
     image: certbot/certbot
     volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt:z
+      - ./certbot/www:/var/www/certbot:z
+
 volumes:
   log-data:
   storage-data:
