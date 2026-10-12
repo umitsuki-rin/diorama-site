@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resource :site_setting, only: %i[ show edit update ]
     resource :profile, only: %i[ show edit update ]
     resource :password, only: %i[ edit update ]
+    resources :users, only: %i[ index new create destroy ]
     resources :songs, except: :show
     resources :news, except: :show
     resources :contacts, only: %i[ index show update destroy ]

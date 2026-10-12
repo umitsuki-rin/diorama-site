@@ -1,0 +1,29 @@
+- content_for :title, "ユーザー管理"
+
+= render "admin/shared/page_header", title: "ユーザー管理", action_label: "ユーザーを追加", action_path: new_admin_user_path
+
+p.text-sm.text-gray-500.mb-4 追加したユーザーは、ID（メールアドレス）とパスワードで管理画面にログインできます。パスワードはログイン後に各自で変更できます。
+
+.bg-white.rounded-xl.shadow-sm.border.border-gray-200.overflow-hidden
+  .overflow-x-auto
+    table.w-full.text-sm
+      thead
+        tr.bg-gray-50
+          th.px-5.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase ID（メールアドレス）
+          th.px-5.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.hidden.sm:table-cell 登録日時
+          th.px-5.py-3.text-right.text-xs.font-medium.text-gray-500.uppercase 操作
+      tbody
+        - @users.each do |user|
+          tr.border-t.border-gray-100.hover:bg-gray-50
+            td.px-5.py-3.font-medium.text-gray-800
+              = user.email_address
+              - if user.developer?
+                span.ml-2.px-2.rounded.text-xs.bg-indigo-50.text-indigo-700 class="py-0.5" 開発者
+              - elsif user == Current.user
+                span.ml-2.px-2.rounded.text-xs.bg-gray-100.text-gray-600 class="py-0.5" ログイン中
+            td.px-5.py-3.text-gray-600.hidden.sm:table-cell = l(user.created_at)
+            td.px-5.py-3
+              .flex.items-center.justify-end
+                - unless user.developer? || user == Current.user
+                  = button_to admin_user_path(user), method: :delete, class: "text-gray-400 hover:text-red-600 cursor-pointer", title: "削除", aria: { label: "削除" }, form: { data: { turbo_confirm: "本当に削除しますか？" } } do
+                    i.fa-solid.fa-trash

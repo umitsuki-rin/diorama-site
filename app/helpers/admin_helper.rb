@@ -10,8 +10,14 @@ module AdminHelper
     { label: "楽曲", icon: "fa-music", path: :admin_songs_path, controller: "admin/songs" },
     { label: "プロフィール", icon: "fa-user", path: :admin_profile_path, controller: "admin/profiles" },
     { label: "ニュース", icon: "fa-newspaper", path: :admin_news_index_path, controller: "admin/news" },
-    { label: "お問い合わせ", icon: "fa-envelope", path: :admin_contacts_path, controller: "admin/contacts" }
+    { label: "お問い合わせ", icon: "fa-envelope", path: :admin_contacts_path, controller: "admin/contacts" },
+    { label: "ユーザー管理", icon: "fa-users", path: :admin_users_path, controller: "admin/users", developer_only: true }
   ].freeze
+
+  # ログイン中のユーザーに表示するメニュー（ユーザー管理は開発者だけ）
+  def admin_menu_items
+    ADMIN_MENU.reject { it[:developer_only] && !Current.user&.developer? }
+  end
 
   def admin_menu_item_class(item)
     base = "flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium"

@@ -40,8 +40,8 @@ ja:
         status: ステータス
       user:
         email_address: ID（メールアドレス）
-        password: 新しいパスワード
-        password_confirmation: 新しいパスワード（確認）
+        password: パスワード
+        password_confirmation: パスワード（確認）
       contact:
         company_name: 企業名
         name: お名前

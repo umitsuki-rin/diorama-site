@@ -23,7 +23,7 @@ html lang="ja"
         .hidden.md:block.px-6.py-6
           = link_to "DIORAMA CMS", admin_root_path, class: "text-lg font-bold text-gray-800"
         nav.px-3.py-4.md:py-0.space-y-1
-          - AdminHelper::ADMIN_MENU.each do |item|
+          - admin_menu_items.each do |item|
             = link_to send(item[:path]), class: admin_menu_item_class(item) do
               i.fa-solid.w-5.text-center class=item[:icon]
               span = item[:label]
