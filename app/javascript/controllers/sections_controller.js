@@ -16,7 +16,7 @@ const IDLE_GAP = 220
 //   3. 次／前のセクションへの切り替え
 // の順に消費する。
 export default class extends Controller {
-  static targets = [ "section", "track", "more", "navItem" ]
+  static targets = [ "section", "track", "more", "navItem", "prevButton", "nextButton" ]
 
   connect() {
     this.index = 0
@@ -257,8 +257,19 @@ export default class extends Controller {
     if (incoming === this.sectionTargets[0]) this.trackScrolled()
   }
 
+  // 上下ボタン
+  prev() {
+    return this.go(-1)
+  }
+
+  next() {
+    return this.go(1)
+  }
+
   markCurrent() {
     this.navItemTargets.forEach((item, index) => item.setAttribute("aria-current", String(index === this.index)))
+    if (this.hasPrevButtonTarget) this.prevButtonTarget.disabled = this.index === 0
+    if (this.hasNextButtonTarget) this.nextButtonTarget.disabled = this.index === this.sectionTargets.length - 1
   }
 
   fade(outgoing, incoming, direction, outImages, revealImages) {

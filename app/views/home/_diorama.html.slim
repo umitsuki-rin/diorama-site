@@ -32,13 +32,13 @@ section#diorama.section-panel.flex.items-center.justify-center data-sections-tar
               .aspect-square.w-full.flex.items-center.justify-center.text-heading/40
                 i.fa-solid.fa-user.text-6xl aria-hidden="true"
           .min-w-0.flex-1.w-full.wide:flex.wide:flex-col
-            .text-xs.tablet:text-sm.leading-loose.tracking-wider class="wide:text-[clamp(0.8rem,2.3cqh,1rem)] wide:leading-[2.1] wide:tracking-widest"
+            .text-xs.tablet:text-sm.leading-loose.tracking-wider class="wide:text-[clamp(0.8rem,2.3cqh,1rem)] wide:max-[1537px]:text-sm wide:leading-[2.1] wide:tracking-widest"
               - if profile.body.present?
                 = simple_format(profile.body)
               - else
                 p プロフィールは準備中です。
             / 料金表ボタンと実績は右カラムの下端に寄せる（ボタンは実績の線のすぐ上）
-            .mt-8.wide:mt-auto
+            .mt-8.wide:mt-auto.wide:pt-8
               - if profile.price_table.present? || profile.request_notes.present?
                 .flex.justify-center
                   button.pill-button.relative.font-normal.text-xs.tablet:text-sm.wide:text-sm.pl-12.pr-7.wide:py-3.wide:pl-14.wide:pr-10 class="py-2.5" type="button" data-action="modal#open"

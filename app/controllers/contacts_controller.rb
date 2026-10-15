@@ -1,10 +1,15 @@
 class ContactsController < ApplicationController
+  include SpamProtection
+
   rate_limit to: 5, within: 10.minutes, only: :create, with: -> { render_limited }
 
   def create
     @contact = Contact.new(contact_params)
 
-    if @contact.save
+    if (reason = spam_reason)
+      Rails.logger.info("[ContactsController] spam blocked (#{reason}) ip=#{request.remote_ip}")
+      render :create
+    elsif @contact.save
       render :create
     else
       render :new, status: :unprocessable_entity

@@ -1,13 +1,13 @@
 - content_for :head, structured_data(profile: @profile, songs: @all_songs)
 
-.fixed.inset-0 data-controller="bgm sections drawer" data-action="bgm:opened->sections#enable"
+.fixed.inset-0 data-controller="bgm sections drawer cat-peek" data-action="bgm:opened->sections#enable"
   = render "home/frame"
 
   / ページの主見出し（画面上はロゴ・各セクション見出しで表現するので、読み上げ・検索用に置く）
   h1.sr-only ボカロP DIORAMA 公式サイト
 
   / 中央のコンテンツ。スクロールに応じて1セクションずつ切り替える
-  main.stage.fixed.inset-x-0.top-0.bottom-14.md:bottom-0.md:right-16.flip-stage
+  main.stage.fixed.inset-x-0.top-0.bottom-footer.md:bottom-0.md:right-16.flip-stage
     = render "home/songs", songs: @songs
     = render "home/diorama", profile: @profile
     = render "home/news", news_list: @news_list

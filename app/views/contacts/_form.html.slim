@@ -6,12 +6,18 @@
         ul.list-disc.pl-5.space-y-1
           - contact.errors.full_messages.each do |message|
             li = message
+    / ボット対策（SpamProtection）：表示時刻の署名付きトークン
+    = hidden_field_tag SpamProtection::TIMESTAMP_FIELD, spam_form_token, id: nil
     .guide-row.guide-left
       = f.label :company_name, "企業名（任意）", class: "sr-only"
       = f.text_field :company_name, placeholder: "企業名", autocomplete: "organization", maxlength: 100, class: "contact-input"
     .guide-row.guide-right
       = f.label :name, "お名前（必須）", class: "sr-only"
       = f.text_field :name, placeholder: "お名前", autocomplete: "name", required: true, maxlength: 100, class: "contact-input"
+    / ハニーポット：本物に見える「フリガナ」欄。画面外に置き、人は入力しない（読み上げ・Tab 移動の対象外）
+    .contact-extra aria-hidden="true"
+      = label_tag "contact_name_kana", "フリガナ（必須）"
+      = text_field_tag "contact[name_kana]", "", placeholder: "フリガナ", id: "contact_name_kana", class: "contact-input", tabindex: -1, autocomplete: "off"
     .guide-row.guide-left
       = f.label :email, "メールアドレス（必須）", class: "sr-only"
       = f.email_field :email, placeholder: "メールアドレス", autocomplete: "email", required: true, maxlength: 255, class: "contact-input"

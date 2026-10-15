@@ -2,6 +2,8 @@ import { Controller } from "@hotwired/stimulus"
 import { hide, prefersReducedMotion } from "lib/motion"
 
 const STORAGE_KEY = "diorama:sound"
+// 1曲終わってから次の再生までの間（ミリ秒）
+const LOOP_PAUSE = 2000
 
 // BGM の再生／ミュートと、オープニングでの音あり・音なしの選択
 export default class extends Controller {
@@ -57,6 +59,17 @@ export default class extends Controller {
   }
 
   // 再生できなかった場合（読み込み前・ブラウザの自動再生制限など）は、次のクリックやキー操作で再試行する
+  // 1曲終わったら2秒あけて最初から再生する（音ありのときだけ）
+  replayAfterPause() {
+    clearTimeout(this.loopTimer)
+    this.loopTimer = setTimeout(() => {
+      if (!this.wantsPlay || this.audioTarget.muted) return
+
+      this.audioTarget.currentTime = 0
+      this.play()
+    }, LOOP_PAUSE)
+  }
+
   play() {
     this.wantsPlay = true
     this.audioTarget.play().catch(() => {
