@@ -4,12 +4,12 @@ class Song < ApplicationRecord
 
   # 公開側のアイコン表示と CMS のフォームの両方でこの順に回す
   STREAMING_SERVICES = [
-    { key: :youtube_url,      name: "YouTube",      icon: "songs/youtube.png" },
-    { key: :niconico_url,     name: "ニコニコ",     icon: "songs/niconico.png" },
-    { key: :spotify_url,      name: "Spotify",      icon: "songs/spotify.png" },
-    { key: :apple_music_url,  name: "Apple Music",  icon: "songs/apple-music.png" },
-    { key: :amazon_music_url, name: "Amazon Music", icon: "songs/amazon-music.png" },
-    { key: :awa_url,          name: "AWA",          icon: "songs/awa.png" }
+    { key: :youtube_url,      name: "YouTube",      icon: "songs/youtube.webp" },
+    { key: :niconico_url,     name: "ニコニコ",     icon: "songs/niconico.webp" },
+    { key: :spotify_url,      name: "Spotify",      icon: "songs/spotify.webp" },
+    { key: :apple_music_url,  name: "Apple Music",  icon: "songs/apple-music.webp" },
+    { key: :amazon_music_url, name: "Amazon Music", icon: "songs/amazon-music.webp" },
+    { key: :awa_url,          name: "AWA",          icon: "songs/awa.webp" }
   ].freeze
 
   has_one_attached :jacket

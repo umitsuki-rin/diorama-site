@@ -1,5 +1,5 @@
 module ApplicationHelper
-  FALLBACK_LOGO_PATH = "/diorama_logo.png".freeze
+  FALLBACK_LOGO_PATH = "/diorama_logo.webp".freeze
   # 元の bgm.wav は 32bit float 形式で再生できないブラウザがあるため、16bit PCM に変換した版を使う
   FALLBACK_BGM_PATH = "/bgm_16bit.wav".freeze
 
@@ -7,7 +7,7 @@ module ApplicationHelper
   MARKDOWN_TAGS = %w[ p br h1 h2 h3 h4 h5 h6 strong em del ul ol li a table thead tbody tr th td blockquote code pre hr ].freeze
   MARKDOWN_ATTRIBUTES = %w[ href target rel style ].freeze
 
-  # CMS で登録されたロゴ。未登録なら public/diorama_logo.png
+  # CMS で登録されたロゴ。未登録なら public/diorama_logo.webp
   def site_logo_source
     logo = current_site_setting.logo
     logo.attached? ? url_for(logo) : FALLBACK_LOGO_PATH

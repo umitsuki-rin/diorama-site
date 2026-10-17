@@ -351,7 +351,7 @@
   .guide-button-wrap::after { right: -1px; }
 
   /* 古い紙の質感：淡い紙色に明暗のグラデーション（左上をやや暗く）。
-     その上に paper.jpg を乗算で重ね、不透明度と彩度を落として淡くする */
+     その上に paper.webp を乗算で重ね、不透明度と彩度を落として淡くする */
   .paper {
     position: relative;
     isolation: isolate;
@@ -365,7 +365,7 @@
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: url("/songs/paper.jpg") center / cover;
+    background: url("/songs/paper.webp") center / cover;
     mix-blend-mode: multiply;
     opacity: 0.6;
     filter: saturate(0.75);
@@ -406,7 +406,7 @@
     mask: url("/diorama_logo_mark_white.svg") center / contain no-repeat;
   }
 
-  /* ヘッダーの裏から顔を出す猫（public/neko.png）。スマホは下から、PC は右から */
+  /* ヘッダーの裏から顔を出す猫（public/neko.webp）。スマホは下から、PC は右から */
   .cat-peek {
     width: 5.5rem;
     height: auto;

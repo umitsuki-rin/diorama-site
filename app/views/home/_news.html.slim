@@ -12,7 +12,7 @@ section#news.section-panel.flex.items-center.justify-center data-sections-target
         / 左：イラストと、その下中央に View More（スマホはイラスト → 一覧 → View More の順に並べる）
         .contents.wide:flex.wide:flex-col.wide:items-center.wide:justify-center.wide:gap-3.wide:shrink-0 class="wide:w-[36%] wide:pt-[min(4rem,7cqh)]"
           / 元画像（3000px）は縮小時に線が荒れるため、余白を切り落として縮小した版を使う
-          = image_tag "news/diorama_1200.png", alt: "", class: "order-1 wide:order-none self-center shrink-0 w-48 tablet:w-96 tablet:mt-10 wide:w-[min(100%,38cqh)] h-auto drop-shadow-xl", loading: "lazy", data: { flip_image: "" }
+          = image_tag "news/diorama_1200.webp", alt: "", class: "order-1 wide:order-none self-center shrink-0 w-48 tablet:w-96 tablet:mt-10 wide:w-[min(100%,38cqh)] h-auto drop-shadow-xl", loading: "lazy", data: { flip_image: "" }
           = link_to news_index_path(all: 1), class: "order-3 wide:order-none self-center shrink-0 pill-button bg-white/50 text-xs gap-3 px-8 py-2 wide:px-14 wide:py-4 wide:mt-2", data: { turbo_frame: "news_panel", flip: "forward" } do
             | View More
             i.fa-solid.fa-arrow-right aria-hidden="true"
