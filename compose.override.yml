@@ -16,6 +16,8 @@ services:
     environment:
       DB_HOST: db
     command: /bin/sh -c "while :; do sleep 10; done"
+    ports:
+      - "3000:3000"
 
 volumes:
   vendor_bundle:

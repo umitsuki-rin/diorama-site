@@ -26,6 +26,7 @@ services:
 
   certbot:
     image: certbot/certbot
+    profiles: ["tools"]
     volumes:
       - ./certbot/conf:/etc/letsencrypt:z
       - ./certbot/www:/var/www/certbot:z
